@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-ortalama-yu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "GPA calculator for NodeBB, built for Yaşar University: pick your level and department, enter letter grades, see your term and cumulative averages by the university's own rules.",
   "main": "library.js",
   "repository": {

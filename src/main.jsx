@@ -118,7 +118,7 @@ function SemesterCard({ s, openKey, stale, onToggle, onPick, onRemove, onClose, 
 	);
 }
 
-function Workspace({ meta, program, state, set, onGpa, levelName, onChange }) {
+function Workspace({ meta, program, state, set, onGpa, levelName }) {
 	const curMeta = meta.cur.find(c => c.id === state.cur) || meta.cur[0];
 	const [openKey, setOpenKey] = useState(null);
 	const [dialog, setDialog] = useState(null);
@@ -298,7 +298,6 @@ function Workspace({ meta, program, state, set, onGpa, levelName, onChange }) {
 					<h2 class="ort-ctx-name" id="ort-title">{meta.name}</h2>
 					<p class="ort-ctx-meta">{levelName}<span aria-hidden="true"> · </span>{meta.faculty}</p>
 				</div>
-				<button type="button" class="ort-btn ort-btn--ghost ort-ctx-change" onClick={onChange}>{levelName === 'Ön lisans' ? 'Programı' : 'Bölümü'} değiştir</button>
 			</header>
 
 			<Bar
@@ -478,7 +477,7 @@ function App() {
 	} else if (step === 2) {
 		body = <ProgramStep programs={programs} level={state.level} current={usable ? state.program : ''} onPick={pickProgram} />;
 	} else if (program.status === 'ok') {
-		body = <Workspace meta={meta} program={program.data} state={state} set={set} onGpa={setGpa} levelName={level.name} onChange={() => go(2)} />;
+		body = <Workspace meta={meta} program={program.data} state={state} set={set} onGpa={setGpa} levelName={level.name} />;
 	} else if (program.status === 'error') {
 		body = <Failed what="Dersler" onRetry={retryProgram} />;
 	} else {
@@ -490,6 +489,13 @@ function App() {
 			{step === 1 ? <Hero programs={programs} updated={index.status === 'ok' ? index.data.updated : ''} /> : null}
 			{step === 2 || (step === 3 && program.status !== 'ok') ? <h2 class="ort-visually-hidden">GPA Hesaplayıcı</h2> : null}
 			<Steps steps={steps} current={step} onGo={go} />
+			{/* Geri yolu adım çubuğundan başka belirgin bir düğmeyle de görünsün; seçimler ve notlar silinmez */}
+			{step > 1 && index.status === 'ok' ? (
+				<button type="button" class="ort-btn ort-btn--ghost ort-back" onClick={() => go(step - 1)}>
+					<Icon name="left" />
+					{step === 2 ? 'Düzey seçimine dön' : `${level.id === 'onlisans' ? 'Program' : 'Bölüm'} listesine dön`}
+				</button>
+			) : null}
 			<div class={`ort-view ${dir > 0 ? 'is-fwd' : 'is-back'}`} key={step}>{body}</div>
 		</div>
 	);
