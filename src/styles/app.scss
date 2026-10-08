@@ -405,10 +405,12 @@
 }
 
 // ---------- Adımlar (react-bits Stepper'dan) ----------
-// Adım çubuğunun altındaki geri düğmesi: çerçeveli, oklu, solda; telefonda başparmak için 44 px
+// Geri düğmesi: çerçeveli, oklu, 44 px (telefonda başparmak). Not ekranında bölüm başlığının solunda,
+// 2. adımda adım çubuğunun altında tek başına
 .ort-back {
+    flex-shrink: 0;
     min-height: 44px;
-    margin: -8px 0 18px;
+    margin: 0;
     padding: 0 16px 0 12px;
     border-color: var(--ort-line-strong);
     font-size: 14.5px;
@@ -426,6 +428,10 @@
     .ort-back:hover .ort-i {
         transform: none;
     }
+}
+
+.ort-back--solo {
+    margin: -8px 0 18px;
 }
 
 .ort-steps {
@@ -995,15 +1001,38 @@
 // Seçili bölüm: ekranın başında hep görünür (telefonda adım çubuğu yalnız adım adlarını gösterir)
 .ort-ctx {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 10px 14px;
+    gap: 14px;
     margin: 0 0 16px;
 }
 
+.ort-ctx-sep {
+    flex-shrink: 0;
+    align-self: stretch;
+    width: 1px;
+    margin: 2px 2px;
+    background-color: var(--ort-line);
+}
+
 .ort-ctx-text {
-    flex: 1 1 200px;
+    flex: 1 1 auto;
     min-width: 0;
+}
+
+// Dar alanda düğme yalnız ok (adı aria-label'da), ayırıcı ve fakülte ikonu çıkar: bölüm adına yer kalır
+.ort-app:not(.is-mid) .ort-ctx {
+    gap: 12px;
+
+    .ort-back {
+        width: 44px;
+        padding: 0;
+    }
+
+    .ort-back-text,
+    .ort-ctx-sep,
+    .ort-fico {
+        display: none;
+    }
 }
 
 .ort-ctx-name {

@@ -118,7 +118,7 @@ function SemesterCard({ s, openKey, stale, onToggle, onPick, onRemove, onClose, 
 	);
 }
 
-function Workspace({ meta, program, state, set, onGpa, levelName }) {
+function Workspace({ meta, program, state, set, onGpa, levelName, backLabel, onBack }) {
 	const curMeta = meta.cur.find(c => c.id === state.cur) || meta.cur[0];
 	const [openKey, setOpenKey] = useState(null);
 	const [dialog, setDialog] = useState(null);
@@ -292,7 +292,13 @@ function Workspace({ meta, program, state, set, onGpa, levelName }) {
 	const taken = dialog ? coursesOf(sems[dialog.no - 1]).map(r => r.code) : [];
 	return (
 		<div class="ort-work" style={{ '--ort-bar-h': `${barH}px` }}>
+			{/* Geri düğmesi solda, seçili bölüm sağında: aynı satır. Telefonda düğme yalnız ok */}
 			<header class="ort-ctx">
+				<button type="button" class="ort-btn ort-btn--ghost ort-back" onClick={onBack} aria-label={backLabel} title={backLabel}>
+					<Icon name="left" />
+					<span class="ort-back-text">{backLabel}</span>
+				</button>
+				<span class="ort-ctx-sep" aria-hidden="true" />
 				<FacIcon faculty={meta.faculty} size={44} />
 				<div class="ort-ctx-text">
 					<h2 class="ort-ctx-name" id="ort-title">{meta.name}</h2>
@@ -467,6 +473,7 @@ function App() {
 		},
 	];
 
+	const backLabel = `${level.id === 'onlisans' ? 'Program' : 'Bölüm'} listesine dön`;
 	let body;
 	if (index.status === 'loading') {
 		body = <><Skeleton /><p class="ort-visually-hidden" role="status">Bölümler yükleniyor</p></>;
@@ -477,7 +484,7 @@ function App() {
 	} else if (step === 2) {
 		body = <ProgramStep programs={programs} level={state.level} current={usable ? state.program : ''} onPick={pickProgram} />;
 	} else if (program.status === 'ok') {
-		body = <Workspace meta={meta} program={program.data} state={state} set={set} onGpa={setGpa} levelName={level.name} />;
+		body = <Workspace meta={meta} program={program.data} state={state} set={set} onGpa={setGpa} levelName={level.name} backLabel={backLabel} onBack={() => go(2)} />;
 	} else if (program.status === 'error') {
 		body = <Failed what="Dersler" onRetry={retryProgram} />;
 	} else {
@@ -489,11 +496,12 @@ function App() {
 			{step === 1 ? <Hero programs={programs} updated={index.status === 'ok' ? index.data.updated : ''} /> : null}
 			{step === 2 || (step === 3 && program.status !== 'ok') ? <h2 class="ort-visually-hidden">GPA Hesaplayıcı</h2> : null}
 			<Steps steps={steps} current={step} onGo={go} />
-			{/* Geri yolu adım çubuğundan başka belirgin bir düğmeyle de görünsün; seçimler ve notlar silinmez */}
-			{step > 1 && index.status === 'ok' ? (
-				<button type="button" class="ort-btn ort-btn--ghost ort-back" onClick={() => go(step - 1)}>
+			{/* Geri yolu adım çubuğundan başka belirgin bir düğmeyle de görünsün; seçimler ve notlar silinmez.
+			    Not ekranında düğme bölüm başlığının solunda durur (Workspace) */}
+			{index.status === 'ok' && (step === 2 || (step === 3 && program.status !== 'ok')) ? (
+				<button type="button" class="ort-btn ort-btn--ghost ort-back ort-back--solo" onClick={() => go(step - 1)}>
 					<Icon name="left" />
-					{step === 2 ? 'Düzey seçimine dön' : `${level.id === 'onlisans' ? 'Program' : 'Bölüm'} listesine dön`}
+					{step === 2 ? 'Düzey seçimine dön' : backLabel}
 				</button>
 			) : null}
 			<div class={`ort-view ${dir > 0 ? 'is-fwd' : 'is-back'}`} key={step}>{body}</div>
