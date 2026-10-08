@@ -39,7 +39,8 @@ async function buildOnce() {
 	await writeFile(path.join(dist, 'manifest.json'), `${JSON.stringify({ js: jsName, css: cssName, data }, null, '\t')}\n`);
 
 	// NodeBB dışında açılan test sayfası
-	const harness = (await readFile('test/harness.template.html', 'utf8')).replace('{{css}}', cssName).replace('{{js}}', jsName).replace('{{data}}', data);
+	const info = await readFile('static/templates/partials/ortalama/info.tpl', 'utf8');
+	const harness = (await readFile('test/harness.template.html', 'utf8')).replace('{{css}}', cssName).replace('{{js}}', jsName).replace('{{data}}', data).replace('{{info}}', () => info);
 	await writeFile(path.join(dist, 'harness.html'), harness);
 	console.log(`${jsName} ${(jsText.length / 1024).toFixed(0)} KB, ${cssName} ${(css.length / 1024).toFixed(0)} KB, veri ${data}`);
 }

@@ -26,6 +26,11 @@ const NAV_CSS = `
 [data-theme="dark"] #main-nav a.nav-link[href$="/ortalama"]:hover { background-color: rgba(var(--yort), .14) !important; }
 `;
 
+// Sayfanın gövdesi, şablondaki (static/templates/ortalama.tpl) ile aynı kuruluş: uygulamanın bağlandığı kök ve
+// altında sunucuda çizilen bilgi bölümü (partials/ortalama/info.tpl)
+const INFO = path.join(root, 'static/templates/partials/ortalama/info.tpl');
+const pageHtml = async () => `<div class="ort-yu-page"><h1 class="ort-visually-hidden">GPA Hesaplayıcı: Yaşar Üniversitesi not ortalaması hesaplama</h1><div class="ort-yu-mount" id="ort-yu-root"></div>${await readFile(INFO, 'utf8')}</div>`;
+
 let forum = { at: 0, html: '' };
 
 async function shell() {
@@ -47,6 +52,7 @@ async function shell() {
 	});
 	html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>GPA Hesaplayıcı | Yaşar Forum (önizleme)</title>');
 
+	const page = await pageHtml();
 	const mount = `
 <style>${NAV_CSS}</style>
 <link rel="stylesheet" href="/static/dist/${manifest.css}">
@@ -69,7 +75,7 @@ async function shell() {
 	}
 	var content = document.querySelector('#content');
 	content.querySelectorAll('[data-widget-area]').forEach(function (el) { el.remove(); });
-	content.innerHTML = '<div class="row flex-fill"><div class="ort-yu-page w-100" id="ort-yu-root"></div></div>';
+	content.innerHTML = ${JSON.stringify(page)};
 	window.YuOrtalama.mount(document.getElementById('ort-yu-root'), { dataBase: '/static/data/${manifest.data}' });
 }());
 </script>`;
@@ -81,7 +87,7 @@ async function shell() {
 // sayfa yenilenince gider. Kullanım: cloudflared tunnel --url http://127.0.0.1:4481, sonra forum sekmesinde
 //   fetch('<tünel>/loader.js').then(r => r.text()).then(c => (0, eval)(c))
 const CALC_ICON = '<svg class="ynav-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>';
-const loader = base => `(async () => {
+const loader = (base, page) => `(async () => {
 	const B = ${JSON.stringify(base)};
 	const get = u => fetch(B + u, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(u + ' ' + r.status); return r.text(); });
 	const m = JSON.parse(await get('/static/dist/manifest.json'));
@@ -110,7 +116,7 @@ const loader = base => `(async () => {
 	});
 	document.querySelectorAll('#main-nav a.nav-link.ynav-current, #main-nav a.nav-link.active').forEach(a => a.classList.remove('ynav-current', 'active'));
 	const content = document.querySelector('#content');
-	content.innerHTML = '<div class="row flex-fill"><div class="ort-yu-page w-100" id="ort-yu-root"></div></div>';
+	content.innerHTML = ${JSON.stringify(page)};
 	document.title = 'GPA Hesaplayıcı | Yaşar Forum';
 	window.YuOrtalama.mount(document.getElementById('ort-yu-root'), { dataBase: B + '/static/data/' + m.data });
 	const old = document.getElementById('ort-preview-bar');
@@ -125,7 +131,7 @@ createServer(async (req, res) => {
 		const local = /^127\.0\.0\.1(:\d+)?$/.test(req.headers.host || '');
 		res.setHeader('Access-Control-Allow-Origin', ORIGIN);
 		if (url.pathname === '/loader.js') {
-			res.writeHead(200, { 'Content-Type': TYPES['.js'], 'Cache-Control': 'no-store' }).end(loader(local ? '' : `https://${req.headers.host}`));
+			res.writeHead(200, { 'Content-Type': TYPES['.js'], 'Cache-Control': 'no-store' }).end(loader(local ? '' : `https://${req.headers.host}`, await pageHtml()));
 			return;
 		}
 		// Tünelden gelen istekler yalnızca aracın derlenmiş dosyalarını ve ders verisini alır; depo, forum kopyası ve vekil yerelde kalır

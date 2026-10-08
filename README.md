@@ -7,13 +7,14 @@ A GPA calculator for Yaşar University students, inside a NodeBB 4 forum at `/or
 - **Electives and extra courses.** Elective slots open their pool to choose from; any course from the catalogue, or one typed by hand, can be added to a semester.
 - **A target.** Type the average you want and see what the remaining courses need.
 - **Grades stay on the device.** They are kept in the browser's local storage. The plugin has no database and no API that writes.
-- **Signed-in users only.** The app and the course data are served at `/ortalama/app/…` with `401` for guests, like the forum's other student tools.
+- **No account needed.** The app and the course data are served to everyone at `/ortalama/app/…` (hashed names, cached for 60 days). A forum that wants the tool for members only can gate the `/ortalama` page itself.
+- **The rules, on the page.** Under the app the page template renders a section everyone (and search engines) can read: the letter grades with their coefficients, a worked example, the rules that change an average and the averages needed for graduation, a minor, a double major and the merit scholarship, each with its official source. `test/info.test.js` checks its numbers against `data/not-sistemi.json` and the calculator itself.
 
 Requires NodeBB 4.15 or later.
 
 ## Installation
 
-    npm install https://codeload.github.com/sinanmertsenerr/nodebb-plugin-ortalama-yu/tar.gz/v1.0.0
+    npm install https://codeload.github.com/sinanmertsenerr/nodebb-plugin-ortalama-yu/tar.gz/v1.0.4
 
 Activate the plugin, rebuild and restart. Then add `/ortalama` to the navigation (ACP → Settings → Navigation).
 

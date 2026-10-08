@@ -1,5 +1,6 @@
 {
 	"title": "GPA Calculator",
+	"heading": "GPA Calculator: Yaşar University grade point average",
 	"loading": "Loading the GPA calculator…",
 	"needs-js": "The GPA calculator needs JavaScript enabled in your browser."
 }

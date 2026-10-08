@@ -1747,59 +1747,13 @@
 .ort-foot {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 8px 24px;
     margin-top: 22px;
-}
 
-.ort-how {
-    flex: 1 1 320px;
-    max-width: 640px;
-    font-size: 13.5px;
-
-    summary {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        min-height: 32px;
-        color: var(--ort-accent-text);
-        font-size: 14px;
-        font-weight: 600;
-        list-style: none;
-        cursor: pointer;
-
-        &::-webkit-details-marker {
-            display: none;
-        }
-
-        .ort-i {
-            transition: transform .2s var(--ort-ease);
-        }
-    }
-
-    &[open] summary .ort-i {
-        transform: rotate(180deg);
-    }
-
-    ul {
-        display: grid;
-        gap: 6px;
-        margin: 6px 0 10px;
-        padding-left: 18px;
-        color: var(--ort-ink2);
-    }
-
-    p {
-        margin: 0;
-        color: var(--ort-muted);
-        font-size: 13px;
-    }
-
-    a {
-        color: var(--ort-accent-text);
-        text-decoration: underline;
-        text-underline-offset: 3px;
+    .ort-hint {
+        flex: 1 1 320px;
     }
 }
 
@@ -1995,6 +1949,199 @@ html.yapp-on .ort-toast {
     gap: 10px;
     min-height: 240px;
     color: var(--ort-muted);
+}
+
+// ---------- Bilgi bölümü ----------
+// Şablonda, sunucuda çizilir (uygulamanın dışında, herkes ve arama motorları görür). Kart yok: çizgiye yazılı
+// başlıklar, ince satır çizgileri, tablolar. Sütun sayısı sayfaya değil bölümün kendi genişliğine bakar
+// (forumun kenar çubukları açık ya da kapalı olabilir).
+.ort-info {
+    container-type: inline-size;
+    margin: 56px 8px 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--ort-line);
+    color: var(--ort-ink);
+    font-size: 15px;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+}
+
+.ort-info-title {
+    max-width: 26ch;
+    margin: 0 0 10px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+    text-wrap: balance;
+}
+
+.ort-info-lead {
+    max-width: 68ch;
+    margin: 0 0 30px;
+    color: var(--ort-ink2);
+    font-size: 16px;
+}
+
+.ort-info-grid {
+    display: grid;
+    gap: 32px 56px;
+    margin-bottom: 36px;
+}
+
+.ort-info-block {
+    min-width: 0;
+
+    .ort-rule {
+        margin-bottom: 4px;
+    }
+
+    .ort-rule:not(:first-child) {
+        margin-top: 28px;
+    }
+}
+
+@container (min-width: 760px) {
+    .ort-info-title {
+        font-size: 28px;
+    }
+
+    .ort-info-grid {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    }
+}
+
+.ort-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 9px 16px 9px 0;
+        border-bottom: 1px solid var(--ort-line);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th:last-child,
+    td:last-child {
+        padding-right: 0;
+    }
+
+    thead th {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        color: var(--ort-muted);
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    tbody th,
+    tfoot th,
+    tfoot td {
+        font-weight: 600;
+    }
+
+    tfoot th,
+    tfoot td {
+        border-bottom: 0;
+    }
+
+    .ort-num {
+        text-align: right;
+        white-space: nowrap;
+    }
+}
+
+// Harf notları: on bir satır sıkı dizilir (yandaki sütunla aynı boyda biter), harf ile sayılar birbirinden kopmaz
+.ort-table--grades {
+    max-width: 400px;
+
+    tbody th,
+    tbody td {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+}
+
+// Eşikler: ortalama solda, belirgin; sütun başlığı bölünmez
+.ort-table--marks {
+    th:first-child {
+        padding-right: 24px;
+        white-space: nowrap;
+    }
+
+    tbody th {
+        font-size: 16px;
+        font-weight: 700;
+    }
+}
+
+.ort-facts {
+    margin: 0;
+
+    > div {
+        display: grid;
+        grid-template-columns: 148px minmax(0, 1fr);
+        gap: 2px 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--ort-line);
+    }
+
+    dt {
+        font-weight: 600;
+    }
+
+    dd {
+        margin: 0;
+        color: var(--ort-ink2);
+    }
+}
+
+@container (max-width: 520px) {
+    .ort-facts > div {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.ort-info-note {
+    margin: 10px 0 0;
+    color: var(--ort-muted);
+    font-size: 13px;
+}
+
+.ort-info-text {
+    margin: 8px 0 0;
+    color: var(--ort-ink2);
+}
+
+// Sonuç satırı: giriş notundaki (Hero) gibi solunda mavi çizgi
+.ort-info-result {
+    margin: 14px 0 0;
+    padding: 2px 0 2px 14px;
+    border-left: 2px solid var(--ort-accent);
+    color: var(--ort-ink2);
+
+    b {
+        color: var(--ort-ink);
+        font-weight: 700;
+    }
+}
+
+.ort-info-src {
+    max-width: 96ch;
+    margin: 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--ort-line);
+    color: var(--ort-muted);
+    font-size: 13px;
+
+    a {
+        color: var(--ort-accent-text);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
 }
 
 // ---------- Dokunmatik ve hareket ----------

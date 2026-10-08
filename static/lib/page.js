@@ -26,6 +26,18 @@ define('forum/ortalama', ['hooks'], function (hooks) {
 		});
 	}
 
+	// Stil dosyası şablondaki <link> ile gelir (bilgi bölümü de onunla boyanır); uygulama stil inmeden çizilmez
+	function styleReady() {
+		return new Promise(function (resolve, reject) {
+			const link = document.querySelector('link[data-ortalama-yu="css"]');
+			if (!link || link.sheet) {
+				return resolve();
+			}
+			link.addEventListener('load', () => resolve(), { once: true });
+			link.addEventListener('error', () => reject(new Error('ortalama-yu: css')), { once: true });
+		});
+	}
+
 	Page.init = async function () {
 		const root = document.getElementById('ort-yu-root');
 		if (!root) {
@@ -33,7 +45,7 @@ define('forum/ortalama', ['hooks'], function (hooks) {
 		}
 		try {
 			await Promise.all([
-				loadOnce('link', { rel: 'stylesheet', href: root.dataset.css }, 'css'),
+				styleReady(),
 				loadOnce('script', { src: root.dataset.js, defer: '' }, 'js'),
 			]);
 			root.innerHTML = '';

@@ -338,17 +338,9 @@ function Workspace({ meta, program, state, set, onGpa, levelName, backLabel, onB
 				))}
 			</div>
 
+			{/* Hesabın kuralları ve kaynakları sayfanın altındaki bilgi bölümünde (şablonda, sunucuda çizilir) */}
 			<footer class="ort-foot">
-				<details class="ort-how">
-					<summary>Nasıl hesaplanıyor?<Icon name="down" size={16} /></summary>
-					<ul>
-						<li>Her notun katsayısı dersin AKTS'siyle çarpılır, toplam AKTS'ye bölünür.</li>
-						<li>Ortalama yuvarlanmaz: 2,999 çıkarsa 2,99 yazılır.</li>
-						<li>Tekrar aldığın derste son notunu gir; yalnız o sayılır.</li>
-						<li>S, U ve W ortalamaya girmez. NA, F gibi 0 sayılır.</li>
-					</ul>
-					<p>Kaynak: <a href="https://www.mevzuat.gov.tr/File/GeneratePdf?mevzuatNo=22754&mevzuatTur=UniversiteYonetmeligi&mevzuatTertip=5" target="_blank" rel="noopener">Yaşar Üniversitesi Ön Lisans ve Lisans Yönetmeliği</a> (m. 21, m. 30). Dersler ve AKTS'ler üniversitenin kataloğundan, {longDate(updated)}. Notların yalnızca bu cihazda saklanır.</p>
-				</details>
+				<p class="ort-hint">Dersler ve AKTS'ler üniversitenin ders kataloğundan, {longDate(updated)}. Notların yalnızca bu cihazda saklanır.</p>
 				{hasAny ? <button type="button" class="ort-link ort-clear" onClick={clear}>Notları temizle</button> : null}
 			</footer>
 
