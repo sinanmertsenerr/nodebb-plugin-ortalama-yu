@@ -6,6 +6,7 @@ import { prefetchProgram } from '../data.js';
 import { Icon } from './icons.jsx';
 import { fold } from './picker.jsx';
 import { levelOf, unitsText } from './setup.jsx';
+import { BackButton } from './steps.jsx';
 
 const FACULTY_LOOK = [
 	[/^Hukuk|Adalet/, '#b30024', 'scale'],
@@ -130,7 +131,7 @@ function TwoPane({ groups, current, onPick, unit }) {
 	);
 }
 
-export function ProgramStep({ programs, level, current, onPick }) {
+export function ProgramStep({ programs, level, current, onPick, onBack }) {
 	const [query, setQuery] = useState('');
 	const l = levelOf(level);
 	const all = useMemo(() => programs.filter(p => p.type === level), [programs, level]);
@@ -142,9 +143,12 @@ export function ProgramStep({ programs, level, current, onPick }) {
 	return (
 		<section class="ort-pane" aria-labelledby="ort-pane-title">
 			<div class="ort-pane-top">
-				<div class="ort-pane-head">
-					<h3 class="ort-pane-title" id="ort-pane-title">{title}</h3>
-					<p class="ort-hint">{l.name}: {all.length} {l.unit}, {unitsText(all)}</p>
+				<div class="ort-pane-lead">
+					<BackButton label="Düzey seçimine dön" onClick={onBack} />
+					<div class="ort-pane-head">
+						<h3 class="ort-pane-title" id="ort-pane-title">{title}</h3>
+						<p class="ort-hint">{l.name}: {all.length} {l.unit}, {unitsText(all)}</p>
+					</div>
 				</div>
 				<label class="ort-search">
 					<Icon name="search" size={18} />

@@ -1,6 +1,21 @@
 // Üstteki üç adım: Düzey → Bölüm → Notlar. design-mcp kataloğundaki react-bits "Stepper" bileşeninden uyarlandı:
 // motion kütüphanesi yerine CSS geçişi ve forumun renkleri. Biten adımda tik çizilir, aradaki çizgi soldan dolar.
 // Her adım bir düğmedir; geri dönmek seçimleri ve notları silmez.
+import { Icon } from './icons.jsx';
+
+// Önceki adıma dönüş: başlığın solunda çerçeveli, oklu düğme ve ince ayırıcı (2. adım başlığı, not ekranındaki bölüm).
+// Dar alanda yalnız ok kalır; adı aria-label'da.
+export function BackButton({ label, onClick }) {
+	return (
+		<>
+			<button type="button" class="ort-btn ort-btn--ghost ort-back" onClick={onClick} aria-label={label} title={label}>
+				<Icon name="left" />
+				<span class="ort-back-text">{label}</span>
+			</button>
+			<span class="ort-back-sep" aria-hidden="true" />
+		</>
+	);
+}
 
 export function Steps({ steps, current, onGo }) {
 	return (

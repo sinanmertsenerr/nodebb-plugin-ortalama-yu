@@ -20,14 +20,32 @@ export function loadState() {
 	return emptyState();
 }
 
+// Art arda değişiklikler 250 ms içinde tek yazışta toplanır
 let timer = null;
-export function saveState(state) {
+let pending = null;
+
+// Bekleyen kayıt hemen yazılır: sekme kapanırken, arka plana geçerken ve araçtan çıkarken (son not kaybolmasın)
+export function flushState() {
 	clearTimeout(timer);
-	timer = setTimeout(() => {
-		try {
-			window.localStorage.setItem(KEY, JSON.stringify(state));
-		} catch (err) { /* kota dolu ya da gizli sekme: kaydetmeden devam */ }
-	}, 250);
+	timer = null;
+	if (!pending) return;
+	try {
+		window.localStorage.setItem(KEY, JSON.stringify(pending));
+	} catch (err) { /* kota dolu ya da gizli sekme: kaydetmeden devam */ }
+	pending = null;
+}
+
+export function saveState(state) {
+	pending = state;
+	clearTimeout(timer);
+	timer = setTimeout(flushState, 250);
+}
+
+// Başka sekmede değişen kayıt bu sekmeye de gelir: iki sekme birbirinin notlarını ezmez
+export function watchState(onChange) {
+	const fn = (e) => { if (e.key === KEY) onChange(loadState()); };
+	window.addEventListener('storage', fn);
+	return () => window.removeEventListener('storage', fn);
 }
 
 export const planKey = state => `${state.program}/${state.cur}`;

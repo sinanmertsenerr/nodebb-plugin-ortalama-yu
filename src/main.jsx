@@ -4,14 +4,14 @@ import { render } from 'preact';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { average, cumulative, format, needed, parse } from './calc.js';
 import { loadAll, loadIndex, loadProgram, peekIndex, peekProgram, prefetchProgram, rowsOf, setDataBase } from './data.js';
-import { emptyState, loadState, planKey, saveState, semOf, withSem } from './store.js';
+import { flushState, loadState, planKey, saveState, semOf, watchState, withSem } from './store.js';
 import { Bar } from './ui/bar.jsx';
 import { Icon } from './ui/icons.jsx';
 import { Picker } from './ui/picker.jsx';
 import { CourseRow, GroupRow } from './ui/rows.jsx';
 import { FacIcon, ProgramStep } from './ui/programs.jsx';
 import { LevelStep, levelOf } from './ui/setup.jsx';
-import { Steps } from './ui/steps.jsx';
+import { BackButton, Steps } from './ui/steps.jsx';
 
 // Bir isteğin durumu: { status: 'idle' | 'loading' | 'ok' | 'error', data }.
 // peek: veri zaten inmişse ilk çizimde doğrudan kullanılır, "yükleniyor" ekranı bir an bile görünmez.
@@ -118,7 +118,7 @@ function SemesterCard({ s, openKey, stale, onToggle, onPick, onRemove, onClose, 
 	);
 }
 
-function Workspace({ meta, program, state, set, onGpa, levelName, backLabel, onBack }) {
+function Workspace({ meta, program, state, set, onGpa, levelName, backLabel, onBack, updated }) {
 	const curMeta = meta.cur.find(c => c.id === state.cur) || meta.cur[0];
 	const [openKey, setOpenKey] = useState(null);
 	const [dialog, setDialog] = useState(null);
@@ -294,11 +294,7 @@ function Workspace({ meta, program, state, set, onGpa, levelName, backLabel, onB
 		<div class="ort-work" style={{ '--ort-bar-h': `${barH}px` }}>
 			{/* Geri düğmesi solda, seçili bölüm sağında: aynı satır. Telefonda düğme yalnız ok */}
 			<header class="ort-ctx">
-				<button type="button" class="ort-btn ort-btn--ghost ort-back" onClick={onBack} aria-label={backLabel} title={backLabel}>
-					<Icon name="left" />
-					<span class="ort-back-text">{backLabel}</span>
-				</button>
-				<span class="ort-ctx-sep" aria-hidden="true" />
+				<BackButton label={backLabel} onClick={onBack} />
 				<FacIcon faculty={meta.faculty} size={44} />
 				<div class="ort-ctx-text">
 					<h2 class="ort-ctx-name" id="ort-title">{meta.name}</h2>
@@ -351,7 +347,7 @@ function Workspace({ meta, program, state, set, onGpa, levelName, backLabel, onB
 						<li>Tekrar aldığın derste son notunu gir; yalnız o sayılır.</li>
 						<li>S, U ve W ortalamaya girmez. NA, F gibi 0 sayılır.</li>
 					</ul>
-					<p>Kaynak: <a href="https://www.mevzuat.gov.tr/File/GeneratePdf?mevzuatNo=22754&mevzuatTur=UniversiteYonetmeligi&mevzuatTertip=5" target="_blank" rel="noopener">Yaşar Üniversitesi Ön Lisans ve Lisans Yönetmeliği</a> (m. 21, m. 30). Dersler ve AKTS'ler üniversitenin kataloğundan, 8 Ekim 2026. Notların yalnızca bu cihazda saklanır.</p>
+					<p>Kaynak: <a href="https://www.mevzuat.gov.tr/File/GeneratePdf?mevzuatNo=22754&mevzuatTur=UniversiteYonetmeligi&mevzuatTertip=5" target="_blank" rel="noopener">Yaşar Üniversitesi Ön Lisans ve Lisans Yönetmeliği</a> (m. 21, m. 30). Dersler ve AKTS'ler üniversitenin kataloğundan, {longDate(updated)}. Notların yalnızca bu cihazda saklanır.</p>
 				</details>
 				{hasAny ? <button type="button" class="ort-link ort-clear" onClick={clear}>Notları temizle</button> : null}
 			</footer>
@@ -438,6 +434,19 @@ function App() {
 		return () => { mo.disconnect(); clearTimeout(t); };
 	}, []);
 
+	useEffect(() => {
+		const hide = () => { if (document.visibilityState === 'hidden') flushState(); };
+		window.addEventListener('pagehide', flushState);
+		document.addEventListener('visibilitychange', hide);
+		const unwatch = watchState(setState);
+		return () => {
+			window.removeEventListener('pagehide', flushState);
+			document.removeEventListener('visibilitychange', hide);
+			unwatch();
+			flushState();
+		};
+	}, []);
+
 	const set = (fn) => setState((prev) => {
 		const next = fn(prev);
 		saveState(next);
@@ -482,9 +491,9 @@ function App() {
 	} else if (step === 1) {
 		body = <LevelStep programs={programs} level={state.levelSet ? state.level : ''} onPick={pickLevel} />;
 	} else if (step === 2) {
-		body = <ProgramStep programs={programs} level={state.level} current={usable ? state.program : ''} onPick={pickProgram} />;
+		body = <ProgramStep programs={programs} level={state.level} current={usable ? state.program : ''} onPick={pickProgram} onBack={() => go(1)} />;
 	} else if (program.status === 'ok') {
-		body = <Workspace meta={meta} program={program.data} state={state} set={set} onGpa={setGpa} levelName={level.name} backLabel={backLabel} onBack={() => go(2)} />;
+		body = <Workspace meta={meta} program={program.data} state={state} set={set} onGpa={setGpa} levelName={level.name} backLabel={backLabel} onBack={() => go(2)} updated={index.data.updated} />;
 	} else if (program.status === 'error') {
 		body = <Failed what="Dersler" onRetry={retryProgram} />;
 	} else {
@@ -496,12 +505,12 @@ function App() {
 			{step === 1 ? <Hero programs={programs} updated={index.status === 'ok' ? index.data.updated : ''} /> : null}
 			{step === 2 || (step === 3 && program.status !== 'ok') ? <h2 class="ort-visually-hidden">GPA Hesaplayıcı</h2> : null}
 			<Steps steps={steps} current={step} onGo={go} />
-			{/* Geri yolu adım çubuğundan başka belirgin bir düğmeyle de görünsün; seçimler ve notlar silinmez.
-			    Not ekranında düğme bölüm başlığının solunda durur (Workspace) */}
-			{index.status === 'ok' && (step === 2 || (step === 3 && program.status !== 'ok')) ? (
-				<button type="button" class="ort-btn ort-btn--ghost ort-back ort-back--solo" onClick={() => go(step - 1)}>
+			{/* Geri düğmesi 2. adımda ve not ekranında başlığın solunda durur (BackButton). Dersler inerken ya da
+			    inemediyse başlık yok: düğme adım çubuğunun altında tek başına */}
+			{index.status === 'ok' && step === 3 && program.status !== 'ok' ? (
+				<button type="button" class="ort-btn ort-btn--ghost ort-back ort-back--solo" onClick={() => go(2)}>
 					<Icon name="left" />
-					{step === 2 ? 'Düzey seçimine dön' : backLabel}
+					{backLabel}
 				</button>
 			) : null}
 			<div class={`ort-view ${dir > 0 ? 'is-fwd' : 'is-back'}`} key={step}>{body}</div>
