@@ -1,0 +1,123 @@
+{
+  "universite": "Yaşar Üniversitesi",
+  "kapsam": "Ön lisans ve lisans",
+  "derlenme": "2026-10-08",
+  "kaynaklar": {
+    "yonetmelik": {
+      "ad": "Yaşar Üniversitesi Ön Lisans ve Lisans Eğitim-Öğretim ve Sınav Yönetmeliği",
+      "resmiGazete": "14.08.2016 / 29801",
+      "sonDegisiklik": "22.02.2021 / 31403",
+      "degisiklikler": ["08.11.2017 / 30234", "20.09.2018 / 30541 mükerrer", "17.07.2019 / 30834", "22.02.2021 / 31403"],
+      "url": "https://www.mevzuat.gov.tr/File/GeneratePdf?mevzuatNo=22754&mevzuatTur=UniversiteYonetmeligi&mevzuatTertip=5",
+      "universiteKopyasi": "https://www.yasar.edu.tr/yu-files/yonetmelik-yonerge/tr/59751247618113477416.pdf",
+      "not": "Resmi mevzuat sitesindeki metin ile üniversitenin yayımladığı PDF aynı sürüm (22.02.2021)."
+    },
+    "uygulamaEsaslari": {
+      "ad": "Ön Lisans ve Lisans Eğitim-Öğretim ve Sınav Yönetmeliği Uygulama Esasları",
+      "onay": "19.09.2018 (Rektör onayı)",
+      "url": "https://www.yasar.edu.tr/yu-files/uygulama-esaslari/tr/%C3%96n%20Lisans%20ve%20Lisans%20Y%C3%B6netmeli%C4%9Fi%20Uygulama%20Esaslar%C4%B1.pdf"
+    },
+    "capYandal": {
+      "ad": "Çift Anadal ve Yan Dal Eğitim-Öğretim Yönergesi",
+      "onay": "22.05.2019",
+      "url": "https://www.yasar.edu.tr/yu-files/yonetmelik-yonerge/tr/17142681426985499401.pdf"
+    },
+    "burs": {
+      "ad": "Ön Lisans ve Lisans Eğitim-Öğretim Burs ve İndirim Yönergesi",
+      "url": "https://www.yasar.edu.tr/wp-content/uploads/2024/08/On-Lisans-ve-Lisans-Egitim-Ogretim-Burs-ve-Indirim-Yonergesi.pdf"
+    },
+    "yazOgretimi": {
+      "ad": "Yaz Öğretimi Yönetmeliği",
+      "url": "https://www.yasar.edu.tr/yu-files/yonetmelik-yonerge/tr/22036861048077078428.pdf"
+    },
+    "mezuniyetToreni": {
+      "ad": "Mezuniyet Töreni Düzenleme Usul ve Esasları",
+      "tarih": "31.05.2022",
+      "url": "https://www.yasar.edu.tr/yu-files/uygulama-esaslari/tr/Mezuniyet%20T%C3%B6reni%20D%C3%BCzenleme%20Usul%20ve%20Esaslar%C4%B1-31052022.pdf"
+    },
+    "yuCoop": {
+      "ad": "YU-COOP Yönergesi",
+      "url": "https://www.yasar.edu.tr/wp-content/uploads/2025/02/YU-COOP-Yonergesi.pdf"
+    }
+  },
+  "harfNotlari": [
+    {"harf": "A", "katsayi": 4.00, "yuzde": [95, 100], "gecer": true},
+    {"harf": "A-", "katsayi": 3.70, "yuzde": [90, 94], "gecer": true},
+    {"harf": "B+", "katsayi": 3.30, "yuzde": [85, 89], "gecer": true},
+    {"harf": "B", "katsayi": 3.00, "yuzde": [80, 84], "gecer": true},
+    {"harf": "B-", "katsayi": 2.70, "yuzde": [75, 79], "gecer": true},
+    {"harf": "C+", "katsayi": 2.30, "yuzde": [70, 74], "gecer": true},
+    {"harf": "C", "katsayi": 2.00, "yuzde": [65, 69], "gecer": true},
+    {"harf": "C-", "katsayi": 1.70, "yuzde": [60, 64], "gecer": true, "tekrarEdilebilir": true},
+    {"harf": "D+", "katsayi": 1.30, "yuzde": [55, 59], "gecer": true, "tekrarEdilebilir": true},
+    {"harf": "D", "katsayi": 1.00, "yuzde": [50, 54], "gecer": true, "tekrarEdilebilir": true},
+    {"harf": "F", "katsayi": 0.00, "yuzde": [0, 49], "gecer": false, "tekrarZorunlu": true}
+  ],
+  "harfNotlariKaynak": {
+    "katsayi": "yonetmelik m.30/1",
+    "yuzde": "uygulamaEsaslari m.12/1",
+    "not": "Yüzde aralıkları yönetmelikte yok, yalnız Uygulama Esasları'nda var. Harf notunu dersin öğretim elemanı verir; yüzde aralığı bağlayıcı bir çan/mutlak sistem tarifi değildir."
+  },
+  "digerNotlar": [
+    {"harf": "S", "ad": "Yeterli", "ortalamayaGirer": false, "gecer": true, "aciklama": "Not ortalamasına dâhil edilmeyen derste başarılı.", "kaynak": "yonetmelik m.30/2-a"},
+    {"harf": "U", "ad": "Yetersiz", "ortalamayaGirer": false, "gecer": false, "tekrarZorunlu": true, "aciklama": "Not ortalamasına dâhil edilmeyen derste başarısız. Ortalamaya girmez ama ders tekrar edilir.", "kaynak": "yonetmelik m.30/2-b; uygulamaEsaslari m.12/2-b"},
+    {"harf": "I", "ad": "Eksik", "ortalamayaGirer": false, "gecici": true, "aciklama": "Notların son teslim tarihinden sonra 10 iş günü içinde harf notuna çevrilmezse kendiliğinden F ya da U olur.", "kaynak": "yonetmelik m.30/2-c"},
+    {"harf": "NA", "ad": "Devamsız", "ortalamayaGirer": true, "katsayi": 0.00, "gecer": false, "tekrarZorunlu": true, "aciklama": "F ya da U gibi işlem görür: ortalamaya giren derste 0,00 sayılır, ortalamaya girmeyen derste U gibidir.", "kaynak": "yonetmelik m.30/2-ç"},
+    {"harf": "W", "ad": "Çekilme", "ortalamayaGirer": false, "gecer": false, "aciklama": "Ortalamaya girmez, not döküm belgesinde görünür. Lisansta en fazla 4, ön lisansta en fazla 2 dersten çekilinebilir. C-, D+ ya da D'yi yükseltmek için alınan dersten çekilirse önceki not geçerli kalır. F'li dersten sonra W alınırsa ders tekrar edilir.", "kaynak": "yonetmelik m.30/2-d; uygulamaEsaslari m.12/2-ğ"},
+    {"harf": "T", "ad": "Transfer", "ortalamayaGirer": false, "gecer": true, "kaynak": "yonetmelik m.30/2-e"},
+    {"harf": "P", "ad": "Devam", "ortalamayaGirer": false, "aciklama": "Yıllık değerlendirilen derste öğrencinin başarıyla devam ettiğini gösterir.", "kaynak": "yonetmelik m.30/2-f"}
+  ],
+  "ortalama": {
+    "agirlik": "AKTS",
+    "formul": "toplam(katsayı × AKTS) / toplam(AKTS)",
+    "basamak": 2,
+    "yuvarlama": "kes",
+    "yuvarlamaAciklama": "Virgülden sonraki üçüncü basamak dikkate alınmaz: 2,999 → 2,99 (yukarı yuvarlanmaz).",
+    "donem": "O dönem kayıt olunan bütün derslerin ağırlıklı ortalaması.",
+    "genel": "Öğretim süresi boyunca kayıt olunan bütün derslerin ağırlıklı ortalaması.",
+    "tekrar": "Tekrar edilen derste en son alınan not genel ortalamaya girer (daha düşük olsa bile).",
+    "yazOkulu": "Yaz öğretiminde alınan dersler, izleyen güz yarıyılı başında genel ortalamaya katılır.",
+    "ortalamayaGirmeyenler": ["S", "U", "I", "W", "T", "P"],
+    "kaynak": "yonetmelik m.4/1-a, m.21; yazOgretimi m.9/2"
+  },
+  "gecmeVeTekrar": {
+    "gecerNot": "Ortalamaya giren derste en az D, girmeyen derste S.",
+    "tekrarEdilebilir": ["C-", "D+", "D"],
+    "tekrarZorunlu": ["F", "U", "W", "NA"],
+    "secmeliTekrar": "Başarısız olunan seçmeli ders tekrar edilir ya da aynı gruptan başka bir seçmeli alınır.",
+    "kaynak": "yonetmelik m.26, m.30/2-g"
+  },
+  "statu": {
+    "basarili": {"genelOrtalamaEnAz": 2.00, "donemAktsEnFazla": 40},
+    "sinamali": {"genelOrtalamaEnFazla": 1.99, "donemAktsEnFazla": 32},
+    "donemAktsEnAz": 20,
+    "not": "Statüler programa yeni başlayanlarda ikinci dönemin sonundan itibaren uygulanır. Staj dersleri azami dönem yüküne dâhil değildir.",
+    "kaynak": "yonetmelik m.22-24; uygulamaEsaslari m.14/4"
+  },
+  "mezuniyet": {
+    "genelOrtalamaEnAz": 2.00,
+    "akts": {"lisans": 240, "onlisans": 120},
+    "ikiDersSinavi": "Yalnız iki dersten F/U kaldıysa ya da F/U yok ama genel ortalama 2,00 altındaysa iki ders sınav hakkı verilir.",
+    "derece": {"genelOrtalamaEnAz": 3.00, "aciklama": "Bölüm/program mezuniyet derecesi (ilk üç) için GNO en az 3,00 ve normal sürede mezuniyet gerekir."},
+    "kaynak": "yonetmelik m.20/3, m.34; mezuniyetToreni m.14"
+  },
+  "esikler": [
+    {"ad": "Çift anadal başvurusu", "genelOrtalamaEnAz": 3.00, "ek": "Sınıfında ilk %20 (ya da hedef programın taban puanı).", "kaynak": "capYandal m.10"},
+    {"ad": "Çift anadala devam", "genelOrtalamaEnAz": 2.50, "ek": "Bir kez 2,50'ye kadar düşebilir; ikinci kez altına düşenin kaydı silinir.", "kaynak": "capYandal m.11; uygulamaEsaslari m.18/3"},
+    {"ad": "Çift anadaldan mezuniyet", "genelOrtalamaEnAz": 2.72, "ek": "Çift anadal programının kendi ortalaması.", "kaynak": "capYandal m.11"},
+    {"ad": "Yan dal başvurusu", "genelOrtalamaEnAz": 2.50, "kaynak": "capYandal m.13"},
+    {"ad": "Yan dala devam", "genelOrtalamaEnAz": 2.30, "kaynak": "capYandal m.14; uygulamaEsaslari m.19/2"},
+    {"ad": "Akademik başarı bursu değerlendirmesi", "genelOrtalamaEnAz": 3.00, "ek": "O yıl müfredattaki yıllık AKTS kadar ders alıp hepsinden geçmek gerekir; yaz okulu sayılmaz; kontenjan sınırlıdır.", "kaynak": "burs m.12"},
+    {"ad": "YU-COOP başvurusu (lisans)", "genelOrtalamaEnAz": 2.50, "kaynak": "yuCoop m.7"},
+    {"ad": "YU-COOP başvurusu (ön lisans)", "genelOrtalamaEnAz": 2.00, "kaynak": "yuCoop m.7"}
+  ],
+  "onur": {
+    "durum": "Yönetmelikte yok",
+    "aciklama": "Onur (3,00-3,49) ve yüksek onur (3,50+) hükümleri (m.23/3-4, m.35/2, m.36/2) 17.07.2019 tarihli değişiklikle yönetmelikten çıkarıldı. Taranan güncel resmi belgelerde yerine konmuş bir kural bulunamadı. Araçta resmi kural gibi gösterilmemeli.",
+    "eskiKural": {"onur": [3.00, 3.49], "yuksekOnur": [3.50, 4.00], "kosul": "Dönemde en az 28 AKTS, F/U/W/NA yok."}
+  },
+  "eskiSistem": {
+    "aciklama": "2016-2017 güzünden önceki yönetmelikte (RG 11.09.2012 / 28408) C-, D+ ve D yoktu; geçer not C idi. O dönemin notları dönüştürülmez.",
+    "kaynak": "yonetmelik geçici m.1"
+  }
+}

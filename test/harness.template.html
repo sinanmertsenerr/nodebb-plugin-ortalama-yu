@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="tr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>GPA Hesaplayıcı (test sayfası)</title>
+	<link rel="icon" href="data:,">
+	<!-- NodeBB dışında test sayfası: build.mjs bunu static/dist/harness.html olarak gerçek dosya adlarıyla üretir -->
+	<!-- Forumdaki temel stil (Bootstrap 5) ve yazı tipi: araç forumun CSS'inden etkilenirken de sınanır -->
+	<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../node_modules/@fontsource-variable/inter/index.css">
+	<link rel="stylesheet" href="./{{css}}">
+	<style>
+		:root { --bs-body-font-family: "Inter Variable", Inter, system-ui, sans-serif; --bs-body-color: #1f272b; --bs-body-bg: #fff; --bs-border-color: rgba(16, 32, 42, .14); }
+		[data-theme="dark"] { --bs-body-color: #e3e6e8; --bs-body-bg: #1c1d20; --bs-border-color: rgba(255, 255, 255, .12); color-scheme: dark; }
+		body { margin: 0; padding: 16px; font-family: var(--bs-body-font-family); background: var(--bs-body-bg); color: var(--bs-body-color); }
+		main { max-width: 1040px; margin: 0 auto; }
+	</style>
+	<script src="./{{js}}"></script>
+</head>
+<body>
+	<main>
+		<div id="ort-yu-root" class="ort-yu-page"></div>
+	</main>
+	<script>
+		// Adres: #theme=dark&demo=1  (demo: örnek bölüm ve notlarla açar; cihazdaki kayda dokunmaz)
+		(function () {
+			var params = new URLSearchParams(location.hash.replace(/^#/, ''));
+			if (params.get('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); document.documentElement.setAttribute('data-bs-theme', 'dark'); }
+			if (params.get('fresh')) localStorage.removeItem('ortalama-yu:v1');
+			if (params.get('demo')) {
+				localStorage.setItem('ortalama-yu:v1', JSON.stringify({
+					program: 'lis-71', cur: '402794', level: 'lisans', ready: true, target: '3,00',
+					plans: { 'lis-71/402794': { 1: { grades: { 'MATH 1100': 'B+', 'MATH 1131': 'B', 'PHYS 1121': 'C+', 'SE 1105': 'A', 'SOFL 1101': 'A-', 'UMFD 1020': 'A' }, picks: {}, extra: [], removed: [] }, 2: { grades: { 'COMP 1202': 'B', 'MATH 1132': 'B-' }, picks: {}, extra: [], removed: [] } } }
+				}));
+			}
+			window.YuOrtalama.mount(document.getElementById('ort-yu-root'), { dataBase: '../data/{{data}}' });
+		}());
+	</script>
+</body>
+</html>

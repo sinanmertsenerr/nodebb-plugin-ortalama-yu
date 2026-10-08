@@ -1,0 +1,19 @@
+{
+	"id": "nodebb-plugin-ortalama-yu",
+	"name": "GPA Hesaplayıcı",
+	"description": "GPA calculator for Yaşar University students: pick your department, enter letter grades, see term and cumulative averages by the university's own rules.",
+	"url": "https://github.com/sinanmertsenerr/nodebb-plugin-ortalama-yu",
+	"library": "./library.js",
+	"hooks": [
+		{
+			"hook": "static:app.load",
+			"method": "init"
+		}
+	],
+	"modules": {
+		"../client/ortalama.js": "static/lib/page.js"
+	},
+	"templates": "static/templates",
+	"languages": "languages",
+	"defaultLang": "en-GB"
+}
